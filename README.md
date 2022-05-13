@@ -308,7 +308,7 @@ end
 ```
 Nota: Vea los codigos completos en los archivos adjuntos a este repositorio.
 
-[**PARA VER EL FUNCIONAMIENTO DE TODOS LOS CÓDIGOS MENCIONADOS ANTERIORMENTE HAGA CLICK AQUÍ :)**](https://github.com/fegonzalez7/rob_unal_clase5)
+[**PARA VER EL FUNCIONAMIENTO DE TODOS LOS CÓDIGOS MENCIONADOS ANTERIORMENTE HAGA CLICK AQUÍ :)**](https://youtu.be/nAaMzAQ5Slk)
 
 ## CONCLUSIONES:
 -En esta práctica notamos que es más fácil modificar la posición de las juntas a través de un servicio y no de su respectivo tópico, lo que meustra lo importante de conocer diferentes herramientas para resolver la misma problemática.
