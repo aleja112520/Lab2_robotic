@@ -16,7 +16,7 @@ L3=65.7
 Una vez se han determinado las longitudes entre articulaciones, se presenta el robot con la herramienta SerialLink de Matlab junto con los parámetros DH calculados previamente, a continuación se muestra el código utilizado y los resultados obtenidos:
 
 ```
-l0=38.5;
+l0=39;
 l1=105.7;
 l2=106;
 l3=65.7;
@@ -25,6 +25,10 @@ L(2) = Link('revolute','alpha',0,'a',l1,'d',0,'offset',-pi/2,'qlim',[-3*pi/4 3*p
 L(3) = Link('revolute','alpha',0,'a',l2,'d',0,'offset',0,'qlim',[-3*pi/4 3*pi/4]);
 L(4) = Link('revolute','alpha',0,'a',l3,'d',0,'offset',0,'qlim',[-3*pi/4 3*pi/4]);
 Robot = SerialLink(L,'name','Px')
+Robot.tool=[0 0 1 0;
+            1 0 0 0;
+            0 1 0 0;
+            0 0 0 1];
 q=[0 0 0 0];
 Robot.plot(q,'notiles','noname');
 ```
@@ -34,7 +38,7 @@ Parámetros DH:
 
 Presentación del robot con los parámetros DH mostrados anteriormente:
 
-<img src="https://i.postimg.cc/65rpFx3S/robotmatlab.png" alt="drawing" width="400"/>
+<img src="https://i.postimg.cc/52L2kpX2/robotmatlab.png" alt="drawing" width="400"/>
 
 ***
 
@@ -177,4 +181,77 @@ Por último, con el siguiente código se puede suscribir a cada tópico y retorn
 ```
 sub = rossubscriber('/dynamixel_workbench/joint_states');
 sub.LatestMessage.Position
+```
+## MATLAB + ROS + TOOLBOX:
+
+-Cree un código en Matlab que envíe la posición en ángulos deseada a cada articulación del robot utilizando las herramientas de ROS + Dynamixel, el porgrama deberá graficar la configuración del robot usando las herramientas del toolbox, esta configuración deberá coincidir con la obtenida en el robot real.
+-Pruebe las siguientes poses generadas a partir de los valores articulares de q1, q2, q3, q4, q5 (Recuerde que los valores de configuración se toman respecto a home, para el cual todos los valores articulares son cero):
+
+1. 0, 0, 0, 0, 0.
+2. -20, 20, -20, 20, 0.
+3. 30,-30, 30, -30, 0.
+4. -90, 15, -55, 17, 0.
+5. -90, 45, -55, 45, 10.
+
+Para el desarrollo de esta parte del laboratorio partimos del código mostrado anteriormente cuando se presentó la postura del robot, así pues en la primera parte del código se crea en matlab el robot usando la función SerialLink, dando a cada articulación los parámetros DH correspondientes y estableciendo una matriz de rotación entre la herramienta y el último marco de referencia:
+
+```
+l0=39;
+l1=105.7;
+l2=106;
+l3=65.7;
+L(1) = Link('revolute','alpha',-pi/2,'a',0,'d',l0,'offset',-pi/2,'qlim',[-3*pi/4 3*pi/4]);
+L(2) = Link('revolute','alpha',0,'a',l1,'d',0,'offset',-pi/2,'qlim',[-3*pi/4 3*pi/4]);
+L(3) = Link('revolute','alpha',0,'a',l2,'d',0,'offset',0,'qlim',[-3*pi/4 3*pi/4]);
+L(4) = Link('revolute','alpha',0,'a',l3,'d',0,'offset',0,'qlim',[-3*pi/4 3*pi/4]);
+Robot = SerialLink(L,'name','Px')
+Robot.tool=[0 0 1 0;
+            1 0 0 0;
+            0 1 0 0;
+            0 0 0 1];
+```
+Luego, iniciamos el nodo en ros creando un cliente y mensaje como ya se indicó, en cuanto al contenido del mensaje de cada id (iniciando en 1 y terminando en 4 esta vez, ya que no queremos mover la herramienta) se determina los valores q de cada articulación siendo inicalmente de 30º y se lanza el mensaje. Posteriormente, se grafica en matlab esta postura con ayuda de la función .plot con su respectivo q en radianes:
+```
+rosinit;
+%%
+cliente = rossvcclient('/dynamixel_workbench/dynamixel_command'); %Creación de cliente de pose y posición
+msg = rosmessage(cliente); %Creación de mensaje
+%%
+msg.AddrName = "Goal_Position";
+pause(2);
+q = [30 30 30 30];
+for i=1:4
+    msg.Id = i;
+    msg.Value = mapfun(q(i),-150,150,0,1023);
+    call(cliente,msg);
+    pause(1);
+end
+Robot.plot(q*pi/180,'notiles','noname');
+```
+Para la última parte se lanzan mensajes sucesivos con las posturas de las articualciones que se piden en el laboratorio empezando con q=[0 0 0 0] y finalizando con q=[-90 45 -55 45 10], es decir, se crea un array llamado Q que contiene los q que se piden en el laboratorio, este array Q es enviado al valor del mensaje que se lanzará posteriormente, para luego graficarlo con la ayuda de .plot:
+
+```
+q1 = [0 0 0 0 0];
+q2 = [-20 20 -20 20 0];
+q3 = [30 -30 30 -30 0];
+q4 = [-90 15 -55 17 0];
+q5 = [-90 45 -55 45 10];
+
+Q = [q1; q2; q3; q4; q5];
+
+%%
+msg.AddrName = "Goal_Position";
+pause(2);
+
+for i=1:size(Q,1)
+    for j=1:4
+        msg.Id = j;
+        msg.Value = mapfun(Q(i,j),-150,150,0,1023);
+        call(cliente,msg);
+        pause(1);
+    end
+    
+    Robot.plot(Q(i,1:4)*pi/180,'notiles','noname');
+    pause(4);
+end
 ```
