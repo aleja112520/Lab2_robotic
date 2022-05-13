@@ -94,25 +94,25 @@ Con base en la documentación de los motores Dynamixel en ROS, cree un script en
 tópicos y llame a los servicios correspondientes para realizar el movimiento de cada una de las articulaciones
 del manipulador (waist, shoulder, elbow, wrist). La lógica del script puede ser la siguiente:
 
--Se debe realizar el movimiento entre dos posiciones angulares características de cada articulación: una
+- Se debe realizar el movimiento entre dos posiciones angulares características de cada articulación: una
 de home y otra objetivo.
--Se le debe indicar al programa qué articulación se desea mover. Se debe imprimir en consola el nombre
+- Se le debe indicar al programa qué articulación se desea mover. Se debe imprimir en consola el nombre
 de la articulación operando. La articulación a operar se cambia usando las teclas ’W’ y ’S’ de la siguiente
 manera:
 
-  -Con la tecla ’W’ se pasa a la siguiente articulación (si se está en waist se pasa a shoulder ; si se está
+  - Con la tecla ’W’ se pasa a la siguiente articulación (si se está en waist se pasa a shoulder ; si se está
   en shoulder se pasa a elbow y así).
   
-  -Con la tecla ’S’ se pasa a la articulación anterior (si se está en wrist se pasa a elbow y así).
+  - Con la tecla ’S’ se pasa a la articulación anterior (si se está en wrist se pasa a elbow y así).
   
-  -Se puede hacer de manera cíclica, es decir, que la siguiente articulación a wrist sea waist; y que la
+  - Se puede hacer de manera cíclica, es decir, que la siguiente articulación a wrist sea waist; y que la
   anterior a waist sea wrist.
   
-  -Al pulsar la tecla ’D’ se debe llevar la articulación operada a la posición objetivo.
+  - Al pulsar la tecla ’D’ se debe llevar la articulación operada a la posición objetivo.
   
-  -Al pulsar la tecla ’A’ se debe llevar la articulación operada a la posición de home.
+  - Al pulsar la tecla ’A’ se debe llevar la articulación operada a la posición de home.
   
--Obtenga la visualización del manipulador en RViz, de tal manera que se evidencien todos los movimientos
+- Obtenga la visualización del manipulador en RViz, de tal manera que se evidencien todos los movimientos
 realizados articularmente.
 
 **RESPUESTA:**
@@ -233,8 +233,8 @@ sub.LatestMessage.Position
 ```
 ## MATLAB + ROS + TOOLBOX:
 
--Cree un código en Matlab que envíe la posición en ángulos deseada a cada articulación del robot utilizando las herramientas de ROS + Dynamixel, el porgrama deberá graficar la configuración del robot usando las herramientas del toolbox, esta configuración deberá coincidir con la obtenida en el robot real.
--Pruebe las siguientes poses generadas a partir de los valores articulares de q1, q2, q3, q4, q5 (Recuerde que los valores de configuración se toman respecto a home, para el cual todos los valores articulares son cero):
+- Cree un código en Matlab que envíe la posición en ángulos deseada a cada articulación del robot utilizando las herramientas de ROS + Dynamixel, el porgrama deberá graficar la configuración del robot usando las herramientas del toolbox, esta configuración deberá coincidir con la obtenida en el robot real.
+- Pruebe las siguientes poses generadas a partir de los valores articulares de q1, q2, q3, q4, q5 (Recuerde que los valores de configuración se toman respecto a home, para el cual todos los valores articulares son cero):
 
 1. 0, 0, 0, 0, 0.
 2. -20, 20, -20, 20, 0.
