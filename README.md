@@ -35,6 +35,7 @@ Parámetros DH:
 Presentación del robot con los parámetros DH mostrados anteriormente:
 
 <img src="https://i.postimg.cc/65rpFx3S/robotmatlab.png" alt="drawing" width="400"/>
+
 ***
 
 ## ROS:
@@ -43,7 +44,7 @@ Con base en la documentación de los motores Dynamixel en ROS, cree un script en
 tópicos y llame a los servicios correspondientes para realizar el movimiento de cada una de las articulaciones
 del manipulador (waist, shoulder, elbow, wrist). La lógica del script puede ser la siguiente:
 
--Se debe realizar el movimiento entre dos posiciones angulares caracter ́ısticas de cada articulación: una
+-Se debe realizar el movimiento entre dos posiciones angulares características de cada articulación: una
 de home y otra objetivo.
 -Se le debe indicar al programa qué articulación se desea mover. Se debe imprimir en consola el nombre
 de la articulación operando. La articulación a operar se cambia usando las teclas ’W’ y ’S’ de la siguiente
@@ -64,3 +65,81 @@ manera:
 -Obtenga la visualización del manipulador en RViz, de tal manera que se evidencien todos los movimientos
 realizados articularmente.
 
+
+Se modificó el script: jointSrv.py que venía con el paquete de Dynamixel suministrado en este laboratorio, se explicarán a continuación los cambios más importantes que se le hicieron a este archivo:
+
+La primera modificación fue la adaptación del fragmento de código mostrado abajo, cuya finalidad es leer de la consola de Visual las teclas que sean pulsadas, la variable donde se guarda este valor es "c".
+```
+def detectKey():
+
+    TERMIOS = termios    
+    fd = sys.stdin.fileno()
+    old = termios.tcgetattr(fd)
+    new = termios.tcgetattr(fd)
+    new[3] = new[3] & ~TERMIOS.ICANON & ~TERMIOS.ECHO
+    new[6][TERMIOS.VMIN] = 1
+    new[6][TERMIOS.VTIME] = 0
+    termios.tcsetattr(fd, TERMIOS.TCSANOW, new)
+    c = None
+    try:
+        c = os.read(fd, 1)
+    finally:
+        termios.tcsetattr(fd, TERMIOS.TCSAFLUSH, old)
+    return c
+```
+Otra porción del código que se modificó fue el main del código original. Básicamente se divide el código en dos partes, una parte del código se ejecuta cuando una letra fue oprimida (código mostrado a continuación). 
+
+Se define una variable joint_I que guardará el número ID de la articulación que se quiera mover, se ajusta el torque de las articulaciones 1 y 2 en 600, las articulaciones 3 y 4 en 300. Se consideran de esta manera ya que para algunos movimientos el torque no resultaba suficiente y el movimiento no se desarrollaba completamente. 
+Respecto a la posición de las articulaciones se establece un valor de 512 que es equivalente a 0º.
+
+```
+    rospy.init_node('Mov', anonymous=False)
+
+    joint_I = 1
+
+    joint = joint_I
+
+    rate = rospy.Rate(10)
+    try:
+        jointCommand('', joint_I, 'Torque_Limit', 600, 0)
+        jointCommand('', joint_I+1, 'Torque_Limit', 600, 0)
+        jointCommand('', joint_I+2, 'Torque_Limit', 300, 0)
+        jointCommand('', joint_I+3, 'Torque_Limit', 300, 0)
+        jointCommand('', joint_I+3, 'Goal_Position', 512, 0.5)
+        jointCommand('', joint_I+2, 'Goal_Position', 512, 0.5)
+        time.sleep(0.5)
+        jointCommand('', joint_I+1, 'Goal_Position', 512, 0.5)
+        time.sleep(0.5)
+        jointCommand('', joint_I, 'Goal_Position', 512, 0.5)
+```
+La segunda parte del código establece lo que se hará si no se oprime ninguna tecla, lo primero será que preguntará de forma iterativa si una letra fue oprimida, posteriormente se mostrará en consola una serie de mensajes que le indicaran al usuario la articulación actual con la que se está trabajando y las opciones que tiene al oprimir las teclas. 
+
+Por último,si la letra oprimida fue D, la posición que tomará la articulación será la objetivo (341.3 ->º). Si por el contrario, la letra oprimida fue A la articulación escogida tomará la posición de home (512->0º):
+
+```
+  joints = {joint_I:"Waist", joint_I+1:"Shoulder", joint_I+2:"Elbow", joint_I+3:"Wrist", joint_I+4:"Gripper"}
+
+      letter = detectKey()
+
+      print("ACTUAL JOINT: {}".format(joints[joint]))
+      print(joint-joint_I+1)
+      print("Press 'a' if you want to move this joint to home")
+      print("or press 'd' if you want to move it to the objective position")
+
+      if  letter == b'W' or letter == b'w':
+          if joint < joint_I + 4:
+              joint = joint + 1
+          else:
+              print("This is the last joint")
+      elif letter == b'S' or letter == b's':
+          if joint > joint_I:
+              joint = joint - 1
+          else:
+              print("This is the first joint")
+      elif letter == b'D' or letter == b'd':
+          jointCommand('', joint, 'Goal_Position', int(512*2/3), 0.5)
+          print("Go to objective position")
+      elif letter == b'A' or letter == b'a':
+          jointCommand('', joint, 'Goal_Position', 512, 0.5)
+          print("Go to home position")
+```                
