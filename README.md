@@ -198,6 +198,7 @@ Por último,si la letra oprimida fue D, la posición que tomará la articulació
 ## MATLAB:
 
 - Cree un script que permita publicar en cada tópico de controlador de junta, se deben validar los límites articulares de cada junta.
+
 - Cree un script que permita suscribirse a cada tóopico de controlador de junta, el script debe retornar la configuración de 5 ángulos en radianes.
 
 **RESPUESTA:**
