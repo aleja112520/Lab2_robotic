@@ -193,7 +193,6 @@ Por último,si la letra oprimida fue D, la posición que tomará la articulació
           jointCommand('', joint, 'Goal_Position', 512, 0.5)
           print("Go to home position")
 ```                
-Nota: Vea el código completo en los archivos adjuntos a este repositorio.
 
 ## MATLAB:
 
@@ -301,3 +300,19 @@ for i=1:size(Q,1)
     pause(4);
 end
 ```
+Nota: Vea los codigos completos en los archivos adjuntos a este repositorio.
+
+[**PARA VER EL FUNCIONAMIENTO DE TODOS LOS CÓDIGOS MENCIONADOS ANTERIORMENTE HAGA CLICK AQUÍ :)**](https://github.com/fegonzalez7/rob_unal_clase5)
+
+## CONCLUSIONES:
+-En esta práctica notamos que es más fácil modificar la posición de las juntas a través de un servicio y no de su respectivo tópico, lo que meustra lo importante de conocer diferentes herramientas para resolver la misma problemática.
+
+-Es importante seguir la ruta que el profesor indicó en la clase, ya que unos pasos afectaban el funcionamiento de los siguientes y la omisión nos llevo en varias ocasiones a errores en la ejecución de los códigos.
+
+-Fue importante para la posición del robot entender la relación que hay entre el ángulo requerido y los bits que correspondian a esta posición. Para esta operación se uso la función mapfun que hacía esta correspondencia.
+
+## REFERENCIAS:
+- [rob_unal_clase5](https://github.com/fegonzalez7/rob_unal_clase5)
+- [rob_unal_clase4](https://github.com/fegonzalez7/rob_unal_clase4)
+- [guía de laboratorio](https://drive.google.com/file/d/1RGBmvqbng3HATgVkgL6y5xWPqr2GDuzn/view?usp=sharing)
+- [px_robot](https://github.com/felipeg17/px_robot)
