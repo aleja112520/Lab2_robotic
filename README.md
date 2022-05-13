@@ -37,4 +37,30 @@ Presentación del robot con los parámetros DH mostrados anteriormente:
 <img src="https://i.postimg.cc/65rpFx3S/robotmatlab.png" alt="drawing" width="400"/>
 ***
 
+## ROS:
+
+Con base en la documentación de los motores Dynamixel en ROS, cree un script en Python que publique a los
+tópicos y llame a los servicios correspondientes para realizar el movimiento de cada una de las articulaciones
+del manipulador (waist, shoulder, elbow, wrist). La lógica del script puede ser la siguiente:
+
+-Se debe realizar el movimiento entre dos posiciones angulares caracter ́ısticas de cada articulación: una
+de home y otra objetivo.
+-Se le debe indicar al programa qué articulación se desea mover. Se debe imprimir en consola el nombre
+de la articulación operando. La articulación a operar se cambia usando las teclas ’W’ y ’S’ de la siguiente
+manera:
+
+  -Con la tecla ’W’ se pasa a la siguiente articulación (si se está en waist se pasa a shoulder ; si se está
+  en shoulder se pasa a elbow y así).
+  
+  -Con la tecla ’S’ se pasa a la articulación anterior (si se está en wrist se pasa a elbow y así).
+  
+  -Se puede hacer de manera cíclica, es decir, que la siguiente articulación a wrist sea waist; y que la
+  anterior a waist sea wrist.
+  
+  -Al pulsar la tecla ’D’ se debe llevar la articulación operada a la posición objetivo.
+  
+  -Al pulsar la tecla ’A’ se debe llevar la articulación operada a la posición de home.
+  
+-Obtenga la visualización del manipulador en RViz, de tal manera que se evidencien todos los movimientos
+realizados articularmente.
 
