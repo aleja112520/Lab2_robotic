@@ -29,16 +29,62 @@ Robot.tool=[0 0 1 0;
             1 0 0 0;
             0 1 0 0;
             0 0 0 1];
-q=[0 0 0 0];
-Robot.plot(q,'notiles','noname');
+figure();
+q1=[0 0 0 0];
+Hbt1=L(1).A(q1(1))*L(2).A(q1(2))*L(3).A(q1(3))*L(4).A(q1(4))
+Robot.plot(q1,'notiles','noname');
+Robot.plot(q1,'notiles','noname');
+
+figure();
+q2=[0 0 pi/2 pi/2];
+Hbt2=L(1).A(q2(1))*L(2).A(q2(2))*L(3).A(q2(3))*L(4).A(q2(4))
+Robot.plot(q2,'notiles','noname');
+
+figure();
+q3=[pi pi/3 pi/3 pi/8];
+Hbt3=L(1).A(q3(1))*L(2).A(q3(2))*L(3).A(q3(3))*L(4).A(q3(4))
+Robot.plot(q3,'notiles','noname');
+
+figure();
+q4=[-pi/3 -pi/3 -pi/3 -pi/3];
+Hbt4=L(1).A(q4(1))*L(2).A(q4(2))*L(3).A(q4(3))*L(4).A(q4(4))
+Robot.plot(q4,'notiles','noname');
 ```
 Parámetros DH:
 
 <img src="https://i.postimg.cc/qRnzxb7g/parametros-DH.png" alt="drawing" width="400"/>
 
-Presentación del robot con los parámetros DH mostrados anteriormente:
+Presentación del robot (posición HOME q=0 0 0 0):
 
-<img src="https://i.postimg.cc/52L2kpX2/robotmatlab.png" alt="drawing" width="400"/>
+<img src="https://i.postimg.cc/YCdyg3y0/home.png" alt="drawing" width="400"/>
+
+Matriz de transfomación de la herramienta respecto a la base, (posición HOME):
+
+<img src="https://i.postimg.cc/WzWtPx1g/matrizhome.png" alt="drawing" width="400"/>
+
+Presentación del robot (posición DESEADA q=-pi/3 -pi/3 -pi/3 -pi/3):
+
+<img src="https://i.postimg.cc/FsLL0sWL/qdeseada.png" alt="drawing" width="400"/>
+
+Matriz de transfomación de la herramienta respecto a la base, (posición DESEADA):
+
+<img src="https://i.postimg.cc/FRbJwPSV/matrizdeseada.png" alt="drawing" width="400"/>
+
+Presentación del robot (q=0 0 pi/2 pi/2):
+
+<img src="https://i.postimg.cc/hvGXJKJf/q2.png" alt="drawing" width="400"/>
+
+Matriz de transfomación de la herramienta respecto a la base, (q=0 0 pi/2 pi/2):
+
+<img src="https://i.postimg.cc/ZRJqvJ96/matrizq2.png" alt="drawing" width="400"/>
+
+Presentación del robot (pi pi/3 pi/3 pi/8):
+
+<img src="https://i.postimg.cc/cJs01XtJ/q3.png" alt="drawing" width="400"/>
+
+Matriz de transfomación de la herramienta respecto a la base, (pi pi/3 pi/3 pi/8):
+
+<img src="https://i.postimg.cc/t4PRrsWh/matrizq3.png" alt="drawing" width="400"/>
 
 ***
 
