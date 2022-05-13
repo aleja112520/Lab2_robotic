@@ -143,3 +143,24 @@ Por último,si la letra oprimida fue D, la posición que tomará la articulació
           jointCommand('', joint, 'Goal_Position', 512, 0.5)
           print("Go to home position")
 ```                
+Nota: Vea el código completo en los archivos adjuntos a este repositorio.
+
+## MATLAB:
+
+- Cree un script que permita publicar en cada tópico de controlador de junta, se deben validar los límites articulares de cada junta.
+- Cree un script que permita suscribirse a cada tóopico de controlador de junta, el script debe retornar la configuración de 5 ángulos en radianes.
+
+Para desarrollar este punto del laboratorio se utilizó la creó un cliente de pose y posición, se creó un mensaje y se asignó al cliente creado previamente. Este mensaje tenia el siguiente contenido: modificar la dirección Goal_Position, se crea un for para asignar a 5 id 
+
+```
+msg.AddrName = "Goal_Position";
+pause(2);
+p = [30 30 30 30 30];
+% p = [0 0 0 0 0];
+for i=1:5
+    msg.Id = i;
+    msg.Value = mapfun(p(i),-150,150,0,1023);
+    call(cliente,msg);
+    pause(1);
+end
+```
