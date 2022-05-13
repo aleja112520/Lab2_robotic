@@ -115,6 +115,7 @@ manera:
 -Obtenga la visualización del manipulador en RViz, de tal manera que se evidencien todos los movimientos
 realizados articularmente.
 
+**RESPUESTA:**
 
 Se modificó el script: jointSrv.py que venía con el paquete de Dynamixel suministrado en este laboratorio, se explicarán a continuación los cambios más importantes que se le hicieron a este archivo:
 
@@ -199,6 +200,8 @@ Por último,si la letra oprimida fue D, la posición que tomará la articulació
 - Cree un script que permita publicar en cada tópico de controlador de junta, se deben validar los límites articulares de cada junta.
 - Cree un script que permita suscribirse a cada tóopico de controlador de junta, el script debe retornar la configuración de 5 ángulos en radianes.
 
+**RESPUESTA:**
+
 Para desarrollar este punto del laboratorio se creó un cliente de pose y posición, se creó un mensaje y se asignó al cliente creado previamente. Este mensaje tenia el siguiente contenido: modificar la dirección Goal_Position, luego a cada id se le asignará un valor el cual será dado por la función mapfun, ésta hace una comparación entre los valores de entrada máximo y mínimo con los valores de salida máximo y mínimo, así hace un mapeo del valor ingresado para saber el valor de salida que le correponde y así poder validar  los límites articulares de cada junta. El código explicado anterormente se muestra a continuación:
 
 ```
@@ -237,6 +240,8 @@ sub.LatestMessage.Position
 3. 30,-30, 30, -30, 0.
 4. -90, 15, -55, 17, 0.
 5. -90, 45, -55, 45, 10.
+
+**RESPUESTA:**
 
 Para el desarrollo de esta parte del laboratorio partimos del código mostrado anteriormente cuando se presentó la postura del robot, así pues en la primera parte del código se crea en matlab el robot usando la función SerialLink, dando a cada articulación los parámetros DH correspondientes y estableciendo una matriz de rotación entre la herramienta y el último marco de referencia:
 
