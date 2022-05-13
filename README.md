@@ -150,7 +150,7 @@ Nota: Vea el código completo en los archivos adjuntos a este repositorio.
 - Cree un script que permita publicar en cada tópico de controlador de junta, se deben validar los límites articulares de cada junta.
 - Cree un script que permita suscribirse a cada tóopico de controlador de junta, el script debe retornar la configuración de 5 ángulos en radianes.
 
-Para desarrollar este punto del laboratorio se utilizó la creó un cliente de pose y posición, se creó un mensaje y se asignó al cliente creado previamente. Este mensaje tenia el siguiente contenido: modificar la dirección Goal_Position, se crea un for para asignar a 5 id 
+Para desarrollar este punto del laboratorio se creó un cliente de pose y posición, se creó un mensaje y se asignó al cliente creado previamente. Este mensaje tenia el siguiente contenido: modificar la dirección Goal_Position, luego a cada id se le asignará un valor el cual será dado por la función mapfun, ésta hace una comparación entre los valores de entrada máximo y mínimo con los valores de salida máximo y mínimo, así hace un mapeo del valor ingresado para saber el valor de salida que le correponde y así poder validar  los límites articulares de cada junta. El código explicado anterormente se muestra a continuación:
 
 ```
 msg.AddrName = "Goal_Position";
@@ -163,4 +163,18 @@ for i=1:5
     call(cliente,msg);
     pause(1);
 end
+```
+Función mapfun explicada anteriormente:
+```
+function output = mapfun(value,fromLow,fromHigh,toLow,toHigh)
+narginchk(5,5)
+nargoutchk(0,1)
+output = (value - fromLow) .* (toHigh - toLow) ./ (fromHigh - fromLow) + toLow;
+end
+```
+Por último, con el siguiente código se puede suscribir a cada tópico y retornar la configuración que haya sido contenida en el último mensaje enviado por el suscriptor "sub".
+
+```
+sub = rossubscriber('/dynamixel_workbench/joint_states');
+sub.LatestMessage.Position
 ```
